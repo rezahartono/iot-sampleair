@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../components/custom_appbar.dart';
 import '../controllers/botol_niskin_controller.dart';
+import '../routes.dart';
 import '../styles.dart';
 import '../utils.dart';
 
@@ -26,113 +27,44 @@ class BotolNiskin extends GetView<BotolNiskinController> {
           SizedBox(
             height: size.width * 0.04,
           ),
-          Container(
-            color: AppColor.secondary,
-            padding: const EdgeInsets.symmetric(
-              vertical: 15,
-              horizontal: 20,
-            ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          controller.isActive.value
-                              ? Icons.bluetooth_connected_rounded
-                              : Icons.bluetooth_disabled_rounded,
-                          color: controller.isActive.value
-                              ? AppColor.green
-                              : AppColor.red,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "Bluetooth",
-                          style: AppTextStyle.primary.copyWith(
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Switch(
-                      thumbIcon: controller.thumbIcon,
-                      value: controller.isActive.value,
-                      trackOutlineColor: MaterialStateProperty.resolveWith(
-                        (states) => Colors.transparent,
-                      ),
-                      inactiveThumbColor: AppColor.secondary,
-                      activeTrackColor: AppColor.green,
-                      inactiveTrackColor: AppColor.red,
-                      onChanged: (bool value) {
-                        controller.isActive.value = value;
-                        controller.update();
-                      },
-                    ),
-                  ],
-                ),
-                if (controller.isActive.value)
-                  Divider(
-                    color: AppColor.primary.withOpacity(0.2),
-                  ),
-                if (controller.isActive.value)
+          InkWell(
+            onTap: () {
+              Get.toNamed(
+                RoutePath.bluetoothView,
+              );
+            },
+            child: Container(
+              color: AppColor.secondary,
+              padding: const EdgeInsets.symmetric(
+                vertical: 15,
+                horizontal: 20,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: SizedBox(
-                          height: size.width * 0.14,
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            value: controller.selectedBluetooth.value,
-                            icon: const Icon(Icons.arrow_drop_down_rounded),
-                            elevation: 16,
-                            style: AppTextStyle.primary.copyWith(
-                              fontSize: 18,
-                            ),
-                            underline: Container(
-                              height: 0.5,
-                              color: AppColor.primary,
-                            ),
-                            onChanged: (String? value) {
-                              controller.selectedBluetooth.value = value ?? '';
-                              controller.update();
-                            },
-                            items: controller.bluetooths.map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: AppTextStyle.primary.copyWith(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
+                      Icon(
+                        Icons.bluetooth,
+                        color: AppColor.primary,
                       ),
                       const SizedBox(
-                        width: 20,
+                        width: 5,
                       ),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.resolveWith(
-                            (states) => AppColor.green,
-                          ),
+                      Text(
+                        "Tampilkan Bluetooth",
+                        style: AppTextStyle.primary.copyWith(
+                          fontSize: 18,
                         ),
-                        child: Icon(
-                          Icons.link_sharp,
-                          color: AppColor.secondary,
-                        ),
-                      )
+                      ),
                     ],
                   ),
-              ],
+                  Icon(
+                    Icons.arrow_forward,
+                    color: AppColor.primary,
+                  ),
+                ],
+              ),
             ),
           ),
         ],
