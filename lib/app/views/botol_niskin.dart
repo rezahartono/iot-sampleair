@@ -148,7 +148,9 @@ class BotolNiskin extends GetView<BotolNiskinController> {
             ),
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: TextFormField(
+              // ditambahkan buat menyimpan data dari inputan field
               controller: controller.inputController,
+              // end
               decoration: const InputDecoration(
                 border: InputBorder.none,
               ),
