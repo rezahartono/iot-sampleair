@@ -6,6 +6,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final TextStyle? titleStyle;
   final Color? backgroundColor;
   final Color? iconColor;
+  final Object? result;
   final bool useLeading;
   const CustomAppBar({
     Key? key,
@@ -13,6 +14,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.titleStyle,
     this.backgroundColor,
     this.iconColor,
+    this.result,
     this.useLeading = true,
   }) : super(key: key);
 
@@ -30,7 +32,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: useLeading
           ? InkWell(
               onTap: () {
-                Get.back();
+                Get.back(
+                  result: result,
+                );
               },
               child: Icon(
                 Icons.arrow_back,

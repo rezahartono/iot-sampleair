@@ -153,37 +153,51 @@ class BluetoothView extends GetView<BluetoothViewController> {
     }
 
     return GetX(
-      tag: "Botol Niskin",
+      tag: "Bluetooth View",
       init: controller,
       builder: (controller) {
         utils.println(controller.pageTitle.value);
-        return Scaffold(
-          appBar: CustomAppBar(
-            title: "Botol Niskin",
-            titleStyle: AppTextStyle.secondary,
-            backgroundColor: AppColor.darkBlue,
-            iconColor: AppColor.secondary,
-          ),
-          body: Container(
-            width: size.width,
-            height: size.height,
-            padding: const EdgeInsets.symmetric(
-              vertical: 15,
+        // ditambahkan widget willpopscope dengan membungkus scaffold untuk menghandle action back di os device dengan mereturn result bluetooth device
+        return WillPopScope(
+          onWillPop: () async {
+            // bisa menambahkan kode berikut di action icon back
+            Get.back(
+              result: controller.selectedDevice.value,
+            );
+            // end
+            return false;
+          },
+          child: Scaffold(
+            appBar: CustomAppBar(
+              title: "Bluetooth",
+              titleStyle: AppTextStyle.secondary,
+              backgroundColor: AppColor.darkBlue,
+              iconColor: AppColor.secondary,
+              // tidak perlu di tambahkan karena tidak memakai appbar
+              result: controller.selectedDevice.value,
+              // end
             ),
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/bg.png"),
-                fit: BoxFit.cover,
+            body: Container(
+              width: size.width,
+              height: size.height,
+              padding: const EdgeInsets.symmetric(
+                vertical: 15,
               ),
-            ),
-            child: Column(
-              children: [
-                bluetoothConnector(),
-                const SizedBox(
-                  height: 15,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/bg.png"),
+                  fit: BoxFit.cover,
                 ),
-                bluetoothDevices(),
-              ],
+              ),
+              child: Column(
+                children: [
+                  bluetoothConnector(),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  bluetoothDevices(),
+                ],
+              ),
             ),
           ),
         );

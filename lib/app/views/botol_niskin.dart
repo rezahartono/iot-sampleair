@@ -28,10 +28,16 @@ class BotolNiskin extends GetView<BotolNiskinController> {
             height: size.width * 0.04,
           ),
           InkWell(
-            onTap: () {
-              Get.toNamed(
+            onTap: () async {
+              var connection = await Get.toNamed(
                 RoutePath.bluetoothView,
               );
+
+              if (connection != null) {
+                print(connection);
+                controller.initBluetooth(connection);
+                controller.update();
+              }
             },
             child: Container(
               color: AppColor.secondary,
@@ -88,7 +94,10 @@ class BotolNiskin extends GetView<BotolNiskinController> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  // data "1" bisa di sesuaikan dengan kebutuhan untuk proses membuka
+                  controller.sendCommand("1");
+                },
                 child: Text(
                   "Buka",
                   style: AppTextStyle.primary.copyWith(
@@ -99,7 +108,10 @@ class BotolNiskin extends GetView<BotolNiskinController> {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  // data "0" bisa di sesuaikan dengan kebutuhan untuk proses menutup
+                  controller.sendCommand("0");
+                },
                 child: Text(
                   "Tutup",
                   style: AppTextStyle.primary.copyWith(
@@ -136,6 +148,7 @@ class BotolNiskin extends GetView<BotolNiskinController> {
             ),
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: TextFormField(
+              controller: controller.inputController,
               decoration: const InputDecoration(
                 border: InputBorder.none,
               ),
@@ -145,7 +158,10 @@ class BotolNiskin extends GetView<BotolNiskinController> {
             height: 15,
           ),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              // command mengambil dari data yang di inputkan di field input
+              controller.sendCommand(controller.inputController.text);
+            },
             child: Text(
               "Input",
               style: AppTextStyle.primary.copyWith(

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 
 class Utils {
@@ -5,6 +7,10 @@ class Utils {
     if (kDebugMode) {
       print(data);
     }
+  }
+
+  generateUintFromText(String text) {
+    return Uint8List.fromList(utf8.encode("$text\r\n"));
   }
 }
 

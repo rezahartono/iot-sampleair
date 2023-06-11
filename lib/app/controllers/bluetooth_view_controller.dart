@@ -11,6 +11,7 @@ class BluetoothViewController extends GetxController {
   final bluetoothState = Rxn<BluetoothState>();
   final bluetooth = Rx<FlutterBluetoothSerial>(FlutterBluetoothSerial.instance);
   final bluetoothConnection = Rxn<BluetoothConnection>();
+  final selectedDevice = Rxn<BluetoothDevice>();
   final devices = RxList<BluetoothDevice>();
 
   final MaterialStateProperty<Icon?> thumbIcon =
@@ -82,9 +83,14 @@ class BluetoothViewController extends GetxController {
   connect(BluetoothDevice toConnectDevice) async {
     await BluetoothConnection.toAddress(toConnectDevice.address)
         .then((connection) {
+      selectedDevice.value = toConnectDevice;
       bluetoothConnection.value = connection;
       bluetoothConnection.value?.input?.listen(null).onDone(() {});
-    }).catchError((error) {});
+    }).catchError((error) async {
+      selectedDevice.value = null;
+      bluetoothConnection.value = null;
+      print(error);
+    });
     await getPairedDevices();
   }
 
